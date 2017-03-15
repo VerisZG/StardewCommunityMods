@@ -45,7 +45,7 @@ namespace TimeSpeed
         private int TickInterval
         {
             get { return _tickInterval; }
-            set { _tickInterval = Math.Max(value, 0); }
+            set { _tickInterval = Math.Max(value, 100); }
         }
 
 
@@ -56,6 +56,8 @@ namespace TimeSpeed
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
+            this.Monitor.Log($"ZG:: TIMESPEED STARTING.");
+
             // read config
             Config = helper.ReadConfig<TimeSpeedConfig>();
 
@@ -168,6 +170,7 @@ namespace TimeSpeed
         private void ChangeTickInterval(bool increase)
         {
             // get offset to apply
+            /*
             int change = 1000;
             {
                 KeyboardState state = Keyboard.GetState();
@@ -178,18 +181,21 @@ namespace TimeSpeed
                 else if (state.IsKeyDown(Keys.LeftAlt))
                     change /= 10;
             }
+            */
 
             // update tick interval
             if (!increase)
             {
-                int minAllowed = Math.Min(this.TickInterval, change);
-                this.TickInterval = Math.Max(minAllowed, this.TickInterval - change);
+                //int minAllowed = Math.Min(this.TickInterval, change);
+                //this.TickInterval = Math.Min(1, this.TickInterval - change);
+                this.TickInterval = Math.Max(500, this.TickInterval/2);
             }
             else
-                this.TickInterval = this.TickInterval + change;
+                //this.TickInterval = this.TickInterval + change;
+                this.TickInterval = this.TickInterval*2;
 
             // log change
-            this.Notifier.QuickNotify($"10 minutes feels like {TickInterval / 1000} seconds.");
+            this.Notifier.QuickNotify($"10 minutes feels like {TickInterval / 1000d: 0.##} seconds.");
             this.Monitor.Log($"Tick length set to {TickInterval / 1000d: 0.##} seconds.", LogLevel.Info);
         }
 

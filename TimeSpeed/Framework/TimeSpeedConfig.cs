@@ -41,6 +41,7 @@ namespace TimeSpeed.Framework
         /// }
         /// </code>
         /// </example>
+        
         public Dictionary<string, double?> TickLengthByLocation { get; set; } = new Dictionary<string, double?>
         {
             { LocationType.Indoors.ToString(), 14.0 },
